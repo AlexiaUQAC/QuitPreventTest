@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PreventQuit : MonoBehaviour
 {
-    public bool preventAppQuit;
+    public bool canQuit;
+    public TextMeshProUGUI text;
     
     void Start()
     {
@@ -17,7 +17,7 @@ public class PreventQuit : MonoBehaviour
     /// <returns></returns>
     public void TogglePreventQuit()
     {
-        preventAppQuit = !preventAppQuit;
+        canQuit = !canQuit;
     }
     
     /// <summary>
@@ -30,6 +30,17 @@ public class PreventQuit : MonoBehaviour
     
     bool WantsToQuit()
     {
-        return !preventAppQuit;
+        if (!canQuit)
+        {
+            Invoke("ForceQuit", 5f);
+            text.text = "L'app va quitter dans 5s !";
+        }
+        return canQuit;
+    }
+
+    private void ForceQuit()
+    {
+        canQuit = true;
+        Quit();
     }
 }
